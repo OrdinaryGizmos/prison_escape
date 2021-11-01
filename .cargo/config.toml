@@ -1,0 +1,9 @@
+[alias]
+pcbd = "build --target x86_64-pc-windows-msvc"
+pcbr = "build --release --target x86_64-pc-windows-msvc"
+pcrd = "run --target x86_64-pc-windows-msvc"
+pcrr = "run --release --target x86_64-pc-windows-msvc"
+wbd = "build --target --target wasm32-unknown-unknown"
+wbr = "build --release --target wasm32-unknown-unknown"
+bindr = "wasm-bindgen --out-dir target/generated --target web target/wasm32-unknown-unknown/release/eldritch_horror.wasm"
+bindd = ["wasm-bindgen", "--out-dir", ".", "olc_pge_game.wasm"]

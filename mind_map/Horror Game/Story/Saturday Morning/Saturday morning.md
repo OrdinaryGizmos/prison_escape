@@ -1,0 +1,1 @@
+If [[Player]] investigated [[Maddie]]'s bedroom, [[Create Breakfast For One]]. Otherwise, the [[Player]] [[Creates Breakfast for Two]]

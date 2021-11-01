@@ -1,0 +1,138 @@
+{
+  "main": {
+    "id": "b625041badf48a6e",
+    "type": "split",
+    "children": [
+      {
+        "id": "4f5d6119688389dc",
+        "type": "leaf",
+        "dimension": 50.49019607843136,
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Story/Saturday Morning/Saturday morning.md",
+            "mode": "source"
+          }
+        }
+      },
+      {
+        "id": "1ecb8e7ee2f4638a",
+        "type": "leaf",
+        "dimension": 49.50980392156864,
+        "state": {
+          "type": "localgraph",
+          "state": {
+            "file": "Story/Saturday Morning/Saturday morning.md",
+            "options": {
+              "collapse-filter": true,
+              "search": "",
+              "localJumps": 1,
+              "localBacklinks": true,
+              "localForelinks": true,
+              "localInterlinks": false,
+              "showTags": false,
+              "showAttachments": false,
+              "hideUnresolved": false,
+              "collapse-color-groups": true,
+              "colorGroups": [],
+              "collapse-display": true,
+              "showArrow": false,
+              "textFadeMultiplier": 0,
+              "nodeSizeMultiplier": 1,
+              "lineSizeMultiplier": 1,
+              "collapse-forces": true,
+              "centerStrength": 0.518713248970312,
+              "repelStrength": 10,
+              "linkStrength": 1,
+              "linkDistance": 250,
+              "scale": 1,
+              "close": false
+            }
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b38bee3215b1e5d6",
+    "type": "split",
+    "children": [
+      {
+        "id": "927d1a15de13ff94",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ca97e38d9ebe019a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "0d59dbefdaa2dd9d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "0ce4e1f0b473db27",
+    "type": "split",
+    "children": [
+      {
+        "id": "04752bc4a39bfc36",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "6160e38b67d6a144",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Story/Saturday Morning/Saturday morning.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "4f5d6119688389dc",
+  "lastOpenFiles": [
+    "Story/Saturday Morning/Saturday morning.md",
+    "Story/Saturday Morning/Breakfast/Creates Breakfast for Two.md",
+    "Story/Saturday Morning/Breakfast/Create Breakfast For One.md",
+    "Story/Overview.md",
+    "Story/Characters/Player.md",
+    "Story/Characters/Maddie.md",
+    "Saturday Morning/Saturday morning.md",
+    "Overview.md",
+    "Characters/Maddie.md",
+    "Characters/Player.md"
+  ]
+}
