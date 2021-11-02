@@ -44,22 +44,25 @@ pub struct Game {}
 impl Olc<GameData> for Game {
     fn on_engine_start(&self, mut engine: OLCEngine<GameData>) -> OlcFuture<OLCEngine<GameData>> {
         let fut = async {
-            engine.renderer.setup_3D_pipeline();
             engine.game_data.ui_layer =
                 engine.add_layer_with_info(LayerInfo::Image(layer::Image::default()));
             engine.set_layer_visible(engine.game_data.ui_layer, true);
 
-            let mut layer_bundle = PipelineBundle::default(&engine.renderer);
-            let shader = engine
-                .renderer
-                .create_shader_module(include_str!("cubify.wgsl"));
-            layer_bundle.func = LayerFunc::from(Box::new(draw_snap));
-            layer_bundle.data.update_shader(shader);
-            layer_bundle.data.rebuild_pipeline(&engine.renderer, true);
-            engine.game_data.render_layer = engine.add_layer(LayerType::Render);
-            engine.setup_render_layer(engine.game_data.render_layer, Some(layer_bundle));
-            let mut layer = engine.get_layer_mut(engine.game_data.render_layer).unwrap();
-            layer.shown = true;
+            let render_layer = engine.add_layer(LayerType::Render);
+            engine.setup_render_layer(render_layer, None);
+            engine.set_layer_visible(render_layer, true);
+
+            // let mut layer_bundle = PipelineBundle::default(&engine.renderer);
+            // let shader = engine
+            //     .renderer
+            //     .create_shader_module(include_str!("cubify.wgsl"));
+            // layer_bundle.func = LayerFunc::from(Box::new(draw_snap));
+            // layer_bundle.data.update_shader(shader);
+            // layer_bundle.data.rebuild_pipeline(&engine.renderer, true);
+            // engine.game_data.render_layer = engine.add_layer(LayerType::Render);
+            // engine.setup_render_layer(engine.game_data.render_layer, Some(layer_bundle));
+            // let mut layer = engine.get_layer_mut(engine.game_data.render_layer).unwrap();
+            // layer.shown = true;
 
             // let mut layer_bundle = PipelineBundle::default(&engine.renderer);
             // layer_bundle.func = LayerFunc::from(Box::new(draw_weird));
@@ -73,26 +76,26 @@ impl Olc<GameData> for Game {
             // let mut layer = engine.get_layer_mut(weird_layer).unwrap();
             // layer.shown = true;
 
-            let mut layer_bundle = PipelineBundle::default(&engine.renderer);
-            layer_bundle.func = LayerFunc::from(Box::new(draw_outline));
-            let shader = engine
-                .renderer
-                .create_shader_module(include_str!("outline.wgsl"));
-            layer_bundle.data.update_shader(shader);
-            layer_bundle.data.rebuild_pipeline(&engine.renderer, true);
-            let outline_layer = engine.add_layer(LayerType::Render);
-            engine.setup_render_layer(outline_layer, Some(layer_bundle));
-            let mut layer = engine.get_layer_mut(outline_layer).unwrap();
-            layer.shown = true;
+            // let mut layer_bundle = PipelineBundle::default(&engine.renderer);
+            // layer_bundle.func = LayerFunc::from(Box::new(draw_outline));
+            // let shader = engine
+            //     .renderer
+            //     .create_shader_module(include_str!("outline.wgsl"));
+            // layer_bundle.data.update_shader(shader);
+            // layer_bundle.data.rebuild_pipeline(&engine.renderer, true);
+            // let outline_layer = engine.add_layer(LayerType::Render);
+            // engine.setup_render_layer(outline_layer, Some(layer_bundle));
+            // let mut layer = engine.get_layer_mut(outline_layer).unwrap();
+            // layer.shown = true;
 
-            let level_data = get_file_as_u8("./CellBlock.gltf").await;
-            let (mut gos, mut images) = gltf_ext::get_game_objects(&level_data);
+            let level_data = get_file_as_u8("./CellBlock.glb").await;
+            let (gos, images) = gltf_ext::get_game_objects(&level_data);
             let mut current_tex_size = engine.renderer.textures.len();
             for image in images {
                 engine.renderer.textures.insert(
                     engine.renderer.textures.len(),
                     texture::Texture::new_from_sprite(
-                        &engine.renderer.device,
+                        &engine.renderer,
                         gltf_ext::image_to_sprite(&image),
                         engine.renderer.preferred_texture_format,
                     ),
@@ -101,9 +104,7 @@ impl Olc<GameData> for Game {
             for mut go in gos {
                 go.set_layer_mask(Mask::D3);
                 // for mesh in &mut go.meshes {
-                //     if let Some(tex) = mesh.texture.as_mut() {
-                //         tex.initialize(&engine.renderer, wgpu::TextureFormat::Rgba8Unorm);
-                //     }
+                //      if let Some(tex) = mesh.textures.iter()
                 // }
                 engine.renderer.add_game_object(go);
             }
@@ -112,7 +113,7 @@ impl Olc<GameData> for Game {
             //engine.renderer.add_draw_data(Mask::LAYER3);
             //engine.renderer.add_draw_data(Mask::LAYER4);
             engine.camera = Camera::new();
-            engine.camera.fov = 90.0;
+            engine.camera.fov = 45.0;
             engine.camera.mat.view_proj = engine.camera.build_view_projection_matrix().into();
             engine
         };
@@ -126,12 +127,11 @@ impl Olc<GameData> for Game {
     ) -> Result<(), &str> {
         let elapsed_time = elapsed_time as f32;
         player::update_player_camera(engine, elapsed_time);
-        let mut dirty = false;
-        // if dirty {
-        engine.renderer.update_layer_draw_data(Mask::LAYER4);
-        // }
 
-        let _mouse = engine.get_mouse_pos();
+        //let mut dirty = false;
+        // if dirty {
+        //engine.renderer.update_layer_draw_data(Mask::LAYER4);
+        // }
 
         if engine.get_key(Key::Escape).pressed {
             Err("Ended")
