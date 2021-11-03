@@ -1,4 +1,4 @@
-use rust_olc_pge::prelude::*;
+use og_engine::prelude::*;
 
 pub fn calculate_player_rotation(
     initial_rot: Rotor3,
@@ -52,7 +52,7 @@ pub fn calculate_player_rotation(
     (pitch * yaw, cam_rot)
 }
 
-pub fn update_player_camera(engine: &mut OLCEngine<super::GameData>, elapsed_time: f32) {
+pub fn update_player_camera(engine: &mut OGEngine<super::GameData>, elapsed_time: f32) {
     if engine.get_key(Key::D).held {
         let direction = engine.camera.transform.rot * Vector3::new(1.0, 0.0, 0.0);
         engine.game_data.player_velocity -= direction * elapsed_time * engine.game_data.speed;
@@ -115,7 +115,7 @@ pub fn update_player_camera(engine: &mut OLCEngine<super::GameData>, elapsed_tim
     engine.camera.mat.position = engine.camera.transform.pos.into();
 }
 
-fn draw_mouse(engine: &mut OLCEngine<super::GameData>, mouse: Vf2d, cam_rot: Rotor3) {
+fn draw_mouse(engine: &mut OGEngine<super::GameData>, mouse: Vf2d, cam_rot: Rotor3) {
     engine.set_draw_target(engine.game_data.ui_layer);
     {
         engine.clear(Pixel::BLANK);

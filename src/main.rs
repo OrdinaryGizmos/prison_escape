@@ -1,8 +1,7 @@
 #[allow(unused)]
 mod player;
 
-use olc::prelude::*;
-use rust_olc_pge as olc;
+use og_engine::prelude::*;
 
 fn main() {
     let game = Game::default();
@@ -12,7 +11,7 @@ fn main() {
         player_height: 1.65,
         ..Default::default()
     };
-    olc::game::construct(
+    og_engine::game::construct(
         game,
         game_data,
         "Eldritch Horror",
@@ -37,12 +36,12 @@ pub struct GameData {
     emitter_id: u32,
 }
 
-impl OlcData for GameData {}
+impl OGData for GameData {}
 
 #[derive(Default)]
 pub struct Game {}
-impl Olc<GameData> for Game {
-    fn on_engine_start(&self, mut engine: OLCEngine<GameData>) -> OlcFuture<OLCEngine<GameData>> {
+impl OGGame<GameData> for Game {
+    fn on_engine_start(&self, mut engine: OGEngine<GameData>) -> OGFuture<OGEngine<GameData>> {
         let fut = async {
             engine.game_data.ui_layer =
                 engine.add_layer_with_info(LayerInfo::Image(layer::Image::default()));
@@ -122,7 +121,7 @@ impl Olc<GameData> for Game {
 
     fn on_engine_update(
         &self,
-        engine: &mut OLCEngine<GameData>,
+        engine: &mut OGEngine<GameData>,
         elapsed_time: f64,
     ) -> Result<(), &str> {
         let elapsed_time = elapsed_time as f32;
@@ -140,7 +139,7 @@ impl Olc<GameData> for Game {
         }
     }
 
-    fn on_engine_destroy(&self, _engine: &mut OLCEngine<GameData>) -> Result<(), &str> {
+    fn on_engine_destroy(&self, _engine: &mut OGEngine<GameData>) -> Result<(), &str> {
         Ok(())
     }
 }

@@ -2,7 +2,7 @@
 name = "prison_escape"
 version = "0.1.0"
 authors = ["Jonny Kenyon <granitrocky@gmail.com>"]
-edition = "2018"
+edition = "2021"
 resolver = "2"
 
 [profile.release]
@@ -12,7 +12,7 @@ opt-level = "z"
 opt-level = "z"
 
 [dependencies]
-rust_olc_pge = { git = "https://github.com/OrdinaryGizmos/game_engine.git" }
+og_engine = { git = "https://github.com/OrdinaryGizmos/game_engine.git" }
 wgpu = "0.11"
 num-traits = "*"
 bytemuck = { version = "1.4", features = [ "derive" ] }
