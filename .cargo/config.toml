@@ -7,3 +7,6 @@ wbd = "build --target --target wasm32-unknown-unknown"
 wbr = "build --release --target wasm32-unknown-unknown"
 bindr = "wasm-bindgen --out-dir target/generated --target web target/wasm32-unknown-unknown/release/eldritch_horror.wasm"
 bindd = ["wasm-bindgen", "--out-dir", ".", "olc_pge_game.wasm"]
+
+[target.aarch64-unknown-linux-gnu]
+linker = "rust-lld"

@@ -32,8 +32,6 @@ pub struct GameData {
     player_velocity: Vector3,
     player: Vector3,
     player_height: f32,
-    listener_id: u32,
-    emitter_id: u32,
 }
 
 impl OGData for GameData {}
@@ -89,7 +87,6 @@ impl OGGame<GameData> for Game {
 
             let level_data = get_file_as_u8("./CellBlock.glb").await;
             let (gos, images) = gltf_ext::get_game_objects(&level_data);
-            let mut current_tex_size = engine.renderer.textures.len();
             for image in images {
                 engine.renderer.textures.insert(
                     engine.renderer.textures.len(),
@@ -221,7 +218,7 @@ pub fn draw_weird(
 }
 
 pub fn draw_snap(
-    layer: &LayerDesc<GameData>,
+    _layer: &LayerDesc<GameData>,
     renderer: &Renderer,
     _game_data: &mut GameData,
     _encoder: &mut wgpu::CommandEncoder,

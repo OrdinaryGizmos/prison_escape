@@ -12,7 +12,7 @@ opt-level = "z"
 opt-level = "z"
 
 [dependencies]
-og_engine = { git = "https://github.com/OrdinaryGizmos/game_engine.git" }
+og_engine = { path = "../game_engine" }#{ git = "https://github.com/OrdinaryGizmos/game_engine.git" }
 wgpu = "0.11"
 num-traits = "*"
 bytemuck = { version = "1.4", features = [ "derive" ] }
