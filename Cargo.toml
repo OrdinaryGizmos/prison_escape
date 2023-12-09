@@ -5,14 +5,32 @@ authors = ["Jonny Kenyon <granitrocky@gmail.com>"]
 edition = "2021"
 resolver = "2"
 
+[lib]
+crate-type = ["cdylib", "rlib"]
+
 [profile.release]
 opt-level = "z"
 
 [profile.dev]
 opt-level = "z"
 
+[package.metadata.wasm-pack.profile.dev]
+wasm-opt = false
+
+[package.metadata.wasm-pack.profile.profiling]
+wasm-opt = false
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
 [dependencies]
 og_engine = { path = "../game_engine" }#{ git = "https://github.com/OrdinaryGizmos/game_engine.git" }
-wgpu = "0.11"
+wgpu = "0.18"
 num-traits = "*"
 bytemuck = { version = "1.4", features = [ "derive" ] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1.6"
+console_log = "*"
+wasm-bindgen = "0.2.78"
+wasm-bindgen-futures = "*"

@@ -1,9 +1,15 @@
 #[allow(unused)]
-mod player;
+
+#[cfg(target_arch="wasm32")]
+use wasm_bindgen::prelude::*;
 
 use og_engine::prelude::*;
 
-fn main() {
+mod player;
+
+#[cfg_attr(target_arch="wasm32", wasm_bindgen(start))]
+fn run() {
+
     let game = Game::default();
     let game_data = GameData {
         speed: 10.0,
@@ -15,6 +21,27 @@ fn main() {
         game,
         game_data,
         "Eldritch Horror",
+        1280,
+        720,
+        1,
+        1,
+        false,
+        false,
+    );
+}
+
+fn main(){
+    let game = Game::default();
+    let game_data = GameData {
+        speed: 10.0,
+        player: (0.0, 0.0, 0.0).into(),
+        player_height: 1.65,
+        ..Default::default()
+    };
+    og_engine::game::construct(
+        game,
+        game_data,
+        "Prison Escape",
         1280,
         720,
         1,
@@ -43,7 +70,7 @@ impl OGGame<GameData> for Game {
         let fut = async {
             engine.game_data.ui_layer =
                 engine.add_layer_with_info(LayerInfo::Image(layer::Image::default()));
-            engine.set_layer_visible(engine.game_data.ui_layer, true);
+            engine.set_layer_visible(engine.game_data.ui_layer, false);
 
             let render_layer = engine.add_layer(LayerType::Render);
             engine.setup_render_layer(render_layer, None);
@@ -106,8 +133,8 @@ impl OGGame<GameData> for Game {
             }
 
             engine.renderer.add_draw_data(Mask::D3);
-            //engine.renderer.add_draw_data(Mask::LAYER3);
-            //engine.renderer.add_draw_data(Mask::LAYER4);
+            engine.renderer.add_draw_data(Mask::LAYER3);
+            engine.renderer.add_draw_data(Mask::LAYER4);
             engine.camera = Camera::new();
             engine.camera.fov = 45.0;
             engine.camera.mat.view_proj = engine.camera.build_view_projection_matrix().into();
@@ -122,12 +149,13 @@ impl OGGame<GameData> for Game {
         elapsed_time: f64,
     ) -> Result<(), &str> {
         let elapsed_time = elapsed_time as f32;
+
         player::update_player_camera(engine, elapsed_time);
 
         //let mut dirty = false;
-        // if dirty {
-        //engine.renderer.update_layer_draw_data(Mask::LAYER4);
-        // }
+        //if dirty {
+            //engine.renderer.update_layer_draw_data(Mask::LAYER4);
+        //}
 
         if engine.get_key(Key::Escape).pressed {
             Err("Ended")
@@ -160,22 +188,24 @@ pub fn draw_outline(
 
             let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: Some("Layer Pass"),
-                color_attachments: &[wgpu::RenderPassColorAttachment {
+                color_attachments: &[Some(wgpu::RenderPassColorAttachment {
                     view: &renderer.frame_texture.texture_bundle.as_ref().unwrap().view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
-                }],
+                })],
                 depth_stencil_attachment: Some(wgpu::RenderPassDepthStencilAttachment {
                     view: &renderer.depth_texture.texture_bundle.as_ref().unwrap().view,
                     depth_ops: Some(wgpu::Operations {
                         load: wgpu::LoadOp::Clear(1.0),
-                        store: false,
+                        store: wgpu::StoreOp::Discard,
                     }),
                     stencil_ops: None,
                 }),
+                timestamp_writes: None,
+                occlusion_query_set: None
             });
             render_pass.set_pipeline(&pipeline_data.data.pipeline);
             for (i, bg) in pipeline_data.data.bind_groups.iter().enumerate() {
@@ -197,15 +227,17 @@ pub fn draw_weird(
         if let Some(pipeline_data) = &render_info.pipeline_bundle {
             let mut render_pass = encoder.begin_render_pass(&wgpu::RenderPassDescriptor {
                 label: Some("Layer Pass"),
-                color_attachments: &[wgpu::RenderPassColorAttachment {
+                color_attachments: &[Some(wgpu::RenderPassColorAttachment {
                     view: &renderer.frame_texture.texture_bundle.as_ref().unwrap().view,
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
-                }],
+                })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
             render_pass.set_pipeline(&pipeline_data.data.pipeline);
             for (i, bg) in pipeline_data.data.bind_groups.iter().enumerate() {
